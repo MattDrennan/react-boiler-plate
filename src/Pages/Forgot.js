@@ -7,30 +7,12 @@ function Forgot(props) {
 
     const [emailSent, setEmailSent] = useState(false);
 
-    const [formValue, setFormValue] = useState({
-        email: '',
-    });
-
-    /**
-     * Handles form changes
-     */
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setFormValue((prevalue) => {
-            return {
-                ...prevalue,
-                [name]: value
-            }
-        });
-    };
-
     /**
      * Handles submission
     */
     const submitRecovery = (e) => {
         Axios.post("forgot", {
-            email: formValue.email,
+            email: e.email,
         }).then((response) => {
             setEmailSent(true);
         });
@@ -52,8 +34,7 @@ function Forgot(props) {
                                     message: "Enter a valid e-mail address."
                                 }
                             })}
-                            type="text"
-                            onChange={handleChange} />
+                            type="text" />
 
                         {errors.email && <span role="form-error">{errors.email.message}</span>}
                     </div>

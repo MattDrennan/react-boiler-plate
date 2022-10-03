@@ -3,11 +3,7 @@ import { useForm } from "react-hook-form";
 import Axios from "axios";
 
 function ChangePass(props) {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-
-    const [formValue, setFormValue] = useState({
-        email: '',
-    });
+    const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm();
 
     /**
      * When password is changed, show message
@@ -15,32 +11,16 @@ function ChangePass(props) {
     const [passwordChanged, setPasswordChanged] = useState(false);
 
     /**
-     * Handles form changes
-     */
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setFormValue((prevalue) => {
-            return {
-                ...prevalue,
-                [name]: value
-            }
-        });
-    };
-
-    /**
      * Handles submission
     */
     const submitChange = (e) => {
         Axios.post("changepass", {
-            oldpassword: formValue.oldpassword,
-            newpassword: formValue.newpassword,
+            oldpassword: e.oldpassword,
+            newpassword: e.newpassword,
         }).then((response) => {
-            setFormValue({
-                oldpassword: '',
-                newpassword: '',
-                newpasswordc: '',
-            });
+            setValue('oldpassword', '');
+            setValue('newpassword', '');
+            setValue('newpasswordc', '');
 
             setPasswordChanged(true);
         });
@@ -59,8 +39,7 @@ function ChangePass(props) {
                                 required: "Please enter old password.",
                             })}
                             type="password"
-                            maxLength="32"
-                            onChange={handleChange} />
+                            maxLength="32" />
 
                         {errors.oldpassword && <span role="form-error">{errors.oldpassword.message}</span>}
                     </div>
@@ -76,8 +55,7 @@ function ChangePass(props) {
                                 },
                             })}
                             type="password"
-                            maxLength="32"
-                            onChange={handleChange} />
+                            maxLength="32" />
 
                         {errors.newpassword && <span role="form-error">{errors.newpassword.message}</span>}
                     </div>
@@ -94,8 +72,7 @@ function ChangePass(props) {
                                 }
                             })}
                             type="password"
-                            maxLength="32"
-                            onChange={handleChange} />
+                            maxLength="32" />
 
                         {errors.newpasswordc && <span role="form-error">{errors.newpasswordc.message}</span>}
                     </div>

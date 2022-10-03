@@ -4,49 +4,32 @@ import Axios from "axios";
 import { Link } from "react-router-dom";
 
 function Register(props) {
-    const { register, handleSubmit, watch, setError, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, setError, getValues, formState: { errors } } = useForm();
 
     const [accountCreated, setAccountCreated] = useState(false);
 
-    const [formValue, setFormValue] = useState({
-        email: '',
-        password: '',
-        passwordc: '',
-    });
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-
-        setFormValue((prevalue) => {
-            return {
-                ...prevalue,
-                [name]: value
-            }
-        });
-    };
-
-    const checkUserExist = () => {
+    const checkUserExist = (e) => {
         Axios.get("checkuser", {
             params: {
-                email: formValue.email,
+                email: e.email,
             }
         }).then((response) => {
             if (response.data.result) {
                 setError('email', { type: 'custom', message: 'E-mail already taken!' });
             } else {
-                submitRegister();
+                submitRegister(e);
             }
         });
     }
 
-    const checkForm = () => {
-        checkUserExist();
+    const checkForm = (e) => {
+        checkUserExist(e);
     }
 
-    const submitRegister = (event) => {
+    const submitRegister = (e) => {
         Axios.post("register", {
-            email: formValue.email,
-            password: formValue.password,
+            email: e.email,
+            password: e.password,
         }).then((response) => {
             setAccountCreated(true);
         });
@@ -66,9 +49,9 @@ function Register(props) {
                                     message: "Enter a valid e-mail address."
                                 },
                                 validate: () => {
-                                    Axios.get("checkemail", {
+                                    Axios.get("checkuser", {
                                         params: {
-                                            email: formValue.email,
+                                            email: getValues('email'),
                                         }
                                     }).then((response) => {
                                         if (response.data.result) {
@@ -77,8 +60,7 @@ function Register(props) {
                                     });
                                 }
                             })}
-                            type="text"
-                            onChange={handleChange} />
+                            type="text" />
 
                         {errors.email && <span role="form-error">{errors.email.message}</span>}
                     </div>
@@ -93,7 +75,7 @@ function Register(props) {
                                     message: "A password must be specified and be at least six characters."
                                 }
                             })}
-                            type="password" onChange={handleChange} />
+                            type="password" />
 
                         {errors.password && <span role="form-error">{errors.password.message}</span>}
                     </div>
@@ -109,7 +91,7 @@ function Register(props) {
                                     }
                                 }
                             })}
-                            type="password" onChange={handleChange} />
+                            type="password" />
 
                         {errors.passwordc && <span role="form-error">{errors.passwordc.message}</span>}
                     </div>

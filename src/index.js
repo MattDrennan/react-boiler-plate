@@ -5,7 +5,7 @@ import Axios from "axios";
 
 
 // Set up Axios
-Axios.defaults.baseURL = 'http://localhost:3001/';
+Axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 Axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

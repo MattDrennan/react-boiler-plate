@@ -18,3 +18,9 @@ EMAIL_PORT=EMAIL PORT
 EMAIL_FROM=EMAIL SEND FROM ADDRESS
 SESSION_SECRET=PASSWORD FOR SESSIONS (MAKE THIS WHAT YOU WANT, KEEP SECRET)
 ```
+
+2. Add a .env file in the root directory with the following:
+
+```
+REACT_APP_BASE_URL=http://localhost:3001
+```

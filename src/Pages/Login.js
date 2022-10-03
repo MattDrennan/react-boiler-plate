@@ -6,22 +6,6 @@ import Axios from "axios";
 function Login(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const [formValue, setFormValue] = useState({
-        email: '',
-        password: '',
-    });
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-
-        setFormValue((prevalue) => {
-            return {
-                ...prevalue,
-                [name]: value
-            }
-        });
-    };
-
     /**
      * Checks to see if the user attempted to log in
      */
@@ -53,13 +37,13 @@ function Login(props) {
         <div>
             <form method="POST" onSubmit={handleSubmit(submitLogin)}>
                 <div className="input-box">
-                    E-mail: <input {...register("email", { required: "Enter your e-mail." })} type="text" onChange={handleChange} />
+                    E-mail: <input {...register("email", { required: "Enter your e-mail." })} type="text" />
 
                     {errors.email && <span role="form-error">{errors.email.message}</span>}
                 </div>
 
                 <div className="input-box">
-                    Password: <input {...register("password", { required: "Enter your password." })} type="password" onChange={handleChange} />
+                    Password: <input {...register("password", { required: "Enter your password." })} type="password" />
 
                     {errors.password && <span role="form-error">{errors.password.message}</span>}
                 </div>
